@@ -17,6 +17,7 @@ Add any functions to this file that you think will be useful to you in multiple 
 from collections import defaultdict, Counter
 # for tokenizing and precision, recall, f_measure, and accuracy functions
 import nltk
+from nltk.metrics.scores import (precision, recall, f_measure, accuracy)
 # for plotting
 import matplotlib.pyplot as plt
 # so that we can indicate a function in a type hint
@@ -63,7 +64,7 @@ Make sure that you properly update any docstrings as needed.
 """
 
 
-def get_prfa(dev_y: list, preds: list, verbose=False) -> tuple:
+def get_prfa(dev_y: list, preds: list, verbose=True) -> tuple:
     """
     Calculate precision, recall, f1, and accuracy for a given set of predictions and labels.
     Args:
@@ -73,18 +74,22 @@ def get_prfa(dev_y: list, preds: list, verbose=False) -> tuple:
     Returns:
         tuple of precision, recall, f1, and accuracy
     """
-    precision = nltk.metrics.precision(set(dev_y), set(preds))
-    recall = nltk.metrics.recall(set(dev_y), set(preds))
-    f1 = nltk.metrics.f_measure(set(dev_y), set(preds))
-    accuracy = nltk.metrics.accuracy(dev_y, preds)
+    precision = nltk.metrics.scores.precision(set(dev_y), set(preds))
+    recall = nltk.metrics.scores.recall(set(dev_y), set(preds))
+    f1 = nltk.metrics.scores.f_measure(set(dev_y), set(preds))
+    accuracy = nltk.metrics.scores.accuracy(dev_y, preds)
+    # precision = nltk.(set(dev_y), set(preds))
+    # recall = metrics.recall(set(dev_y), set(preds))
+    # f1 = metrics.f_measure(set(dev_y), set(preds))
+    # accuracy = metrics.accuracy(dev_y, preds)
     
     if verbose:
-        print(f"Precision: {precision}")
-        print(f"Recall: {recall}")
-        print(f"F1 Score: {f1}")
-        print(f"Accuracy: {accuracy}")
+        print("Precision score:", precision)
+        print("Recall:", recall)
+        print("F1 Score:", f1)
+        print("Accuracy:", accuracy)
     
-    return precision, recall, f1, accuracy
+    return tuple(precision, recall, f1, accuracy)
     
     
     
